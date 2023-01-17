@@ -6,7 +6,7 @@ namespace World
 
     Chunk::Chunk(int cx, int cy, Map* parentMap)
     {
-        std::cout << "new chunk";
+        std::cout << "new chunk" << std::endl;
         x = cx;
         y = cy;
         map = parentMap;
@@ -23,7 +23,7 @@ namespace World
 
     Chunk::~Chunk()
     {
-        std::cout << "delete chunk";
+        std::cout << "delete chunk" << std::endl;
         for (int x = 0; x < chunkSize; x++)
         {
             for (int y = 0; y < chunkSize; y++)
@@ -32,6 +32,11 @@ namespace World
             }
         }
         delete tiles;
+    }
+
+    void Chunk::draw()
+    {
+
     }
 
     Map::Map()
@@ -53,8 +58,16 @@ namespace World
         }
     }
 
-    void Map::draw()
+    void Map::update()
     {
 
+    }
+
+    void Map::draw()
+    {
+        for (std::pair<std::pair<int, int>, Chunk*> chunk : chunks)
+        {
+            chunk->draw();
+        }
     }
 }

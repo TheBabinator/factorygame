@@ -6,6 +6,7 @@
 #include "core/input.hpp"
 #include "content/loadingscreen.hpp"
 #include "content/tiles.hpp"
+#include "world/map.hpp"
 
 namespace Gamestate
 {
@@ -18,6 +19,7 @@ namespace Gamestate
     };
 
     extern State currentState;
+    extern World::Map* loadedMap;
 
     void update(int deltaTicks);
     void init();

@@ -14,7 +14,7 @@ bool SDLManager::initSDL()
 {
     if (SDL_Init(SDL_INIT_VIDEO) < 0)
     {
-        std::cout << "SDL could not init!!! " << SDL_GetError() << std::endl;
+        std::cout << "SDL could not init" << SDL_GetError() << std::endl;
         return false;
     }
     SDL_SetHint(SDL_HINT_VIDEO_X11_NET_WM_BYPASS_COMPOSITOR, "0");
@@ -22,21 +22,21 @@ bool SDLManager::initSDL()
     window = SDL_CreateWindow("what", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 0, 0, SDL_WINDOW_SHOWN | SDL_WINDOW_FULLSCREEN_DESKTOP);
     if (window == nullptr)
     {
-        std::cout << "window could not be created!!!! " << SDL_GetError();
+        std::cout << "window could not be created" << SDL_GetError();
         return false;
     }
 
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     if (renderer == nullptr)
     {
-        std::cout << "renderer could not be created!!!!!! " << SDL_GetError();
+        std::cout << "renderer could not be created" << SDL_GetError();
         return false;
     }
 
     int imgFlags = IMG_INIT_PNG;
     if (!(IMG_Init(imgFlags) & imgFlags))
     {
-        std::cout << "image loading thingy didnt load!!1! " << IMG_GetError();
+        std::cout << "image loading library didnt load" << IMG_GetError();
         return false;
     }
 
