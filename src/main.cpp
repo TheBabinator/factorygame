@@ -7,7 +7,7 @@
 
 int main(int argc, char* args[])
 {
-    std::cout << "hey nerds" << std::endl;
+    std::cout << "hello world!" << std::endl;
     bool sdl = SDLManager::initSDL();
     if (sdl) {
         Gamestate::init();

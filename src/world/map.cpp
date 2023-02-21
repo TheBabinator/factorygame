@@ -67,7 +67,7 @@ namespace World
     {
         for (std::pair<std::pair<int, int>, Chunk*> chunk : chunks)
         {
-            chunk->draw();
+
         }
     }
 }

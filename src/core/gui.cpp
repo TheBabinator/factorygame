@@ -5,6 +5,9 @@ Graphics::Slice9* dialogSlice;
 Graphics::Slice9* buttonSlice0;
 Graphics::Slice9* buttonSlice1;
 Graphics::Slice9* buttonSlice2;
+Graphics::Slice9* buttonSliceGreen0;
+Graphics::Slice9* buttonSliceGreen1;
+Graphics::Slice9* buttonSliceGreen2;
 
 Graphics::Sheet* fontSheet;
 
@@ -22,6 +25,9 @@ void GUI::unloadAssets()
     delete buttonSlice0;
     delete buttonSlice1;
     delete buttonSlice2;
+    delete buttonSliceGreen0;
+    delete buttonSliceGreen1;
+    delete buttonSliceGreen2;
     delete fontSheet;
     for(FontMap::iterator itr = fontMapWhite.begin(); itr != fontMapWhite.end(); itr++)
     {
@@ -41,6 +47,9 @@ void GUI::loadAssets()
     buttonSlice0 = uiSheet->getSlice9Pointer(0, 96, 32);
     buttonSlice1 = uiSheet->getSlice9Pointer(96, 96, 32);
     buttonSlice2 = uiSheet->getSlice9Pointer(192, 96, 32);
+    buttonSliceGreen0 = uiSheet->getSlice9Pointer(0, 192, 32);
+    buttonSliceGreen1 = uiSheet->getSlice9Pointer(96, 192, 32);
+    buttonSliceGreen2 = uiSheet->getSlice9Pointer(192, 192, 32);
     fontSheet = new Graphics::Sheet("assets/sprites/ui/font.png");
     int x = 0;
     int y = 0;
@@ -199,4 +208,29 @@ bool GUI::buttonWhite(int x, int y, int w, int h)
 bool GUI::buttonWhite(Graphics::Rectangle rect)
 {
     return buttonWhite(rect.x, rect.y, rect.w, rect.h);
+}
+
+bool GUI::buttonGreen(int x, int y, int w, int h)
+{
+    if (Input::mouseX >= x && Input::mouseX < x + w && Input::mouseY >= y && Input::mouseY < y + h) {
+        switch (Input::leftMouse)
+        {
+            case 0:
+                buttonSliceGreen1->draw(x, y, w, h);
+                return false;
+            case 1:
+                buttonSliceGreen2->draw(x, y, w, h);
+                return true;
+            default:
+                buttonSliceGreen2->draw(x, y, w, h);
+                return false;
+        }
+    }
+    buttonSliceGreen0->draw(x, y, w, h);
+    return false;
+}
+
+bool GUI::buttonGreen(Graphics::Rectangle rect)
+{
+    return buttonGreen(rect.x, rect.y, rect.w, rect.h);
 }

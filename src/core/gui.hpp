@@ -25,4 +25,8 @@ namespace GUI
     void drawTextBlack(std::string text, Graphics::Rectangle rect);
     bool buttonWhite(int x, int y, int w, int h);
     bool buttonWhite(Graphics::Rectangle rect);
+    bool buttonGreen(int x, int y, int w, int h);
+    bool buttonGreen(Graphics::Rectangle rect);
+    bool buttonRed(int x, int y, int w, int h);
+    bool buttonRed(Graphics::Rectangle rect);
 }
