@@ -8,6 +8,7 @@
 int main(int argc, char* args[])
 {
     std::cout << "hello world!" << std::endl;
+    srand(time(NULL));
     bool sdl = SDLManager::initSDL();
     if (sdl) {
         Gamestate::init();
@@ -20,14 +21,14 @@ int main(int argc, char* args[])
             {
                 SDL_Event e = events.front();
                 events.pop();
-                if (e.type == SDL_QUIT) Gamestate::currentState = Gamestate::State::QUIT;
+                if (e.type == SDL_QUIT) Gamestate::currentState = Gamestate::QUIT;
                 Input::handleEvent(e);
             }
             Input::update();
             // call game state
             Gamestate::update(SDLManager::deltaTicks);
             // done
-            if (Gamestate::currentState == Gamestate::State::QUIT) break;
+            if (Gamestate::currentState == Gamestate::QUIT) break;
             SDLManager::postFrame();
         }
 

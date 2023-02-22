@@ -13,8 +13,11 @@ namespace World
         void draw();
         int x;
         int y;
-        Chunk* chunk;
         TileClass* ground;
+    private:
+        Chunk* chunk;
+        int tx;
+        int ty;
     };
 }
 

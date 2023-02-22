@@ -1,6 +1,8 @@
 #pragma once
+#include <ctime>
 #include <map>
 #include "world/tile.hpp"
+#include "content/tiles.hpp"
 
 namespace World
 {
@@ -11,11 +13,11 @@ namespace World
     class Chunk
     {
     private:
-        int x;
-        int y;
         Map* map;
         Tile** tiles;
     public:
+        int x;
+        int y;
         Chunk(int cx, int cy, Map* parentMap);
         ~Chunk();
         void draw();
@@ -25,6 +27,9 @@ namespace World
     {
     private:
         std::map<std::pair<int, int>, Chunk*> chunks;
+        float cameraX = 0;
+        float cameraY = 0;
+        float cameraScale = 1;
     public:
         Map();
         ~Map();

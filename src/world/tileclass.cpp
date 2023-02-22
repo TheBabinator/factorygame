@@ -26,6 +26,12 @@ namespace World
 
     void TileClass::draw(Tile* tile)
     {
-        regions[0]->draw();
+        int hash = tile->x * 1735 + tile->y * 8392;
+        hash = hash * 2938457;
+        hash = hash % 8972345;
+        hash = hash / 2435861;
+        hash = hash % 2543609;
+        if (hash < 0) hash *= -1;
+        regions[hash % variants]->draw(tile->x * 32, tile->y * 32);
     }
 };

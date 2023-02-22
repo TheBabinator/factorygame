@@ -2,7 +2,7 @@
 
 namespace Tiles
 {
-    World::Ground *dirt, *grass;
+    World::Ground *dirt, *grass, *squares;
 
     void addContent()
     {
@@ -11,6 +11,9 @@ namespace Tiles
 
         grass = new World::Ground("grass");
         grass->variants = 4;
+
+        squares = new World::Ground("squares");
+        squares->variants = 4;
     }
 
     void removeContent()

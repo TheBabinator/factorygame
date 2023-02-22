@@ -9,7 +9,7 @@ namespace Gamestate
     {
         switch (currentState)
         {
-            default:
+            case QUIT:
                 break;
             case LOADING:
                 if (LoadingScreen::run()) currentState = Gamestate::MENU;
@@ -40,6 +40,12 @@ namespace Gamestate
     {
         currentState = State::GAMETEST;
         loadedMap = new World::Map();
-        loadedMap->loadChunk(0, 0);
+        for (int cy = -1; cy <= 1; cy++)
+        {
+            for (int cx = -1; cx <= 1; cx++)
+            {
+                loadedMap->loadChunk(cx, cy);
+            }
+        }
     }
 }

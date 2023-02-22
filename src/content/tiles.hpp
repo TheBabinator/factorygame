@@ -4,8 +4,8 @@
 
 namespace Tiles
 {
-    extern World::Ground* dirt;
-    extern World::Ground* grass;
+    extern World::Ground *dirt, *grass, *squares;
+
     void addContent();
     void removeContent();
 }

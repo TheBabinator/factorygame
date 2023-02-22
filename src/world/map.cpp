@@ -11,11 +11,13 @@ namespace World
         y = cy;
         map = parentMap;
         Tile** tiles = new Tile*[chunkSize * chunkSize];
-        for (int tx = 0; tx < chunkSize; tx++)
+        for (int ty = 0; ty < chunkSize; ty++)
         {
-            for (int ty = 0; ty < chunkSize; ty++)
+            for (int tx = 0; tx < chunkSize; tx++)
             {
-                tiles[x * chunkSize + y] = new Tile(tx, ty, this);
+                Tile* tile = new Tile(tx, ty, this);
+                tile->ground = Tiles::squares;
+                tiles[ty * chunkSize + tx] = tile;
             }
         }
         this->tiles = tiles;
@@ -24,11 +26,11 @@ namespace World
     Chunk::~Chunk()
     {
         std::cout << "delete chunk" << std::endl;
-        for (int x = 0; x < chunkSize; x++)
+        for (int ty = 0; ty < chunkSize; ty++)
         {
-            for (int y = 0; y < chunkSize; y++)
+            for (int tx = 0; tx < chunkSize; tx++)
             {
-                delete tiles[x * chunkSize + y];
+                delete tiles[ty * chunkSize + tx];
             }
         }
         delete tiles;
@@ -36,12 +38,19 @@ namespace World
 
     void Chunk::draw()
     {
-
+        for (int ty = 0; ty < chunkSize; ty++)
+        {
+            for (int tx = 0; tx < chunkSize; tx++)
+            {
+                Tile* tile = tiles[ty * chunkSize + tx];
+                tile->draw();
+            }
+        }
     }
 
     Map::Map()
     {
-        loadChunk(0, 0);
+
     }
 
     Map::~Map()
@@ -65,9 +74,9 @@ namespace World
 
     void Map::draw()
     {
-        for (std::pair<std::pair<int, int>, Chunk*> chunk : chunks)
+        for (std::pair<std::pair<int, int>, Chunk*> pair : chunks)
         {
-
+            pair.second->draw();
         }
     }
 }

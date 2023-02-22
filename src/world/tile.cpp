@@ -4,8 +4,10 @@ namespace World
 {
     Tile::Tile(int tx, int ty, Chunk* parentChunk)
     {
-        x = tx;
-        y = ty;
+        this->tx = tx;
+        this->ty = ty;
+        x = parentChunk->x * chunkSize + tx;
+        y = parentChunk->y * chunkSize + ty;
         chunk = parentChunk;
     }
 

@@ -79,7 +79,7 @@ void SDLManager::preFrame()
     totalTicks = SDL_GetTicks64();
     deltaTicks = totalTicks - lastTicks;
     //std::cout << "an extra " << deltaTicks << "ms has passed" << std::endl;
-    SDL_SetRenderDrawColor(renderer, 0x10, 0x10, 0x10, 0xFF);
+    SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
     SDL_RenderClear(renderer);
 }
