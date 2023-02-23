@@ -27,7 +27,6 @@ namespace Gamestate
                 if (Input::getKeyState("right"))
                     Graphics::cameraX += deltaTicks / 100.0;
                 Graphics::cameraZoom += Input::scrollY * 4;
-                Input::inputText = "";
                 loadedMap->update();
                 loadedMap->draw();
                 break;
