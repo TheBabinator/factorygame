@@ -8,14 +8,14 @@ namespace World
     class Tile
     {
     public:
+        int x;
+        int y;
+        Chunk* chunk;
+        TileClass* ground;
         Tile(int tx, int ty, Chunk* parentChunk);
         ~Tile();
         void draw();
-        int x;
-        int y;
-        TileClass* ground;
     private:
-        Chunk* chunk;
         int tx;
         int ty;
     };

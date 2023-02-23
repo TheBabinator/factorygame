@@ -83,4 +83,10 @@ namespace Graphics
     void setDrawColor(int r, int g, int b);
     void drawRectangle(int x, int y, int w, int h);
     void drawRectangle(Rectangle rect);
+
+    extern float cameraX;
+    extern float cameraY;
+    extern float cameraZoom;
+
+    Rectangle project(Rectangle rect);
 };

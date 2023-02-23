@@ -18,6 +18,16 @@ namespace Gamestate
                 Menuscreen::run();
                 break;
             case GAMETEST:
+                if (Input::getKeyState("up"))
+                    Graphics::cameraY -= deltaTicks / 100.0;
+                if (Input::getKeyState("down"))
+                    Graphics::cameraY += deltaTicks / 100.0;
+                if (Input::getKeyState("left"))
+                    Graphics::cameraX -= deltaTicks / 100.0;
+                if (Input::getKeyState("right"))
+                    Graphics::cameraX += deltaTicks / 100.0;
+                Graphics::cameraZoom += Input::scrollY * 4;
+                Input::inputText = "";
                 loadedMap->update();
                 loadedMap->draw();
                 break;
@@ -40,12 +50,5 @@ namespace Gamestate
     {
         currentState = State::GAMETEST;
         loadedMap = new World::Map();
-        for (int cy = -1; cy <= 1; cy++)
-        {
-            for (int cx = -1; cx <= 1; cx++)
-            {
-                loadedMap->loadChunk(cx, cy);
-            }
-        }
     }
 }

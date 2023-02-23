@@ -16,6 +16,7 @@ int main(int argc, char* args[])
         while (true) {
             SDLManager::preFrame();
             // input handling
+            Input::preUpdate();
             std::queue<SDL_Event> events = SDLManager::pollEvents();
             while (!events.empty())
             {

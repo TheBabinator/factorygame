@@ -26,12 +26,18 @@ namespace World
 
     void TileClass::draw(Tile* tile)
     {
-        int hash = tile->x * 1735 + tile->y * 8392;
-        hash = hash * 2938457;
-        hash = hash % 8972345;
-        hash = hash / 2435861;
-        hash = hash % 2543609;
-        if (hash < 0) hash *= -1;
-        regions[hash % variants]->draw(tile->x * 32, tile->y * 32);
+        Graphics::Rectangle rect = Graphics::Rectangle(tile->x, tile->y, 1, 1);
+        rect = Graphics::project(rect);
+
+        float hash = 0.39548639387;
+        hash = hash + tile->x * 1.7876956856836521251;
+        hash = hash * tile->x * 3.1184418488345422462;
+        hash = hash + tile->y * 9.5345643563456230292;
+        hash = hash * tile->y * 7.2487356873456786498;
+        hash = hash - tile->x * 8.5469843598723458972;
+        hash = hash - tile->y * 2.3984235985376498911;
+        int index = fmod(hash, variants);
+        if (index < 0) index *= -1;
+        regions[index]->draw(rect);
     }
 };

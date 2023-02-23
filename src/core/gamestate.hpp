@@ -1,7 +1,9 @@
 #pragma once
 #include <iostream>
 #include <queue>
+#include "core/graphics.hpp"
 #include "core/gui.hpp"
+#include "core/input.hpp"
 #include "content/loadingscreen.hpp"
 #include "content/tiles.hpp"
 #include "gui/menuscreen.hpp"

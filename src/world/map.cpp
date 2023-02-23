@@ -50,12 +50,23 @@ namespace World
 
     Map::Map()
     {
+        //loadChunk(0, 0);
 
+        for (int cy = -1; cy <= 1; cy++)
+        {
+            for (int cx = -1; cx <= 1; cx++)
+            {
+                loadChunk(cx, cy);
+            }
+        }
     }
 
     Map::~Map()
     {
-
+        for (std::pair<std::pair<int, int>, Chunk*> pair : chunks)
+        {
+            delete pair.second;
+        }
     }
 
     void Map::loadChunk(int cx, int cy)

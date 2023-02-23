@@ -1,4 +1,5 @@
 #include "core/graphics.hpp"
+#include "core/sdlmanager.hpp"
 
 Graphics::Rectangle::Rectangle(int cx, int cy, int cw, int ch)
 {
@@ -237,4 +238,17 @@ void Graphics::drawRectangle(int x, int y, int w, int h)
 void Graphics::drawRectangle(Rectangle rect)
 {
     drawRectangle(rect.x, rect.y, rect.w, rect.h);
+}
+
+float Graphics::cameraX = 0;
+float Graphics::cameraY = 0;
+float Graphics::cameraZoom = 32.0;
+
+Graphics::Rectangle Graphics::project(Graphics::Rectangle rect)
+{
+    rect.w = rect.w * cameraZoom + 0.5;
+    rect.h = rect.h * cameraZoom + 0.5;
+    rect.x = (rect.x - cameraX - 0.5) * cameraZoom + SDLManager::screenWidth / 2.0 + 0.5;
+    rect.y = (rect.y - cameraY - 0.5) * cameraZoom + SDLManager::screenHeight / 2.0 + 0.5;
+    return rect;
 }
