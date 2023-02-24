@@ -78,7 +78,7 @@ namespace World
         }
     }
 
-    void Map::update()
+    void Map::update(int deltaTicks)
     {
 
     }

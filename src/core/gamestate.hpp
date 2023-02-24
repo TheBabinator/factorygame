@@ -6,8 +6,10 @@
 #include "core/input.hpp"
 #include "content/loadingscreen.hpp"
 #include "content/tiles.hpp"
+#include "content/entities.hpp"
 #include "gui/menuscreen.hpp"
 #include "world/map.hpp"
+#include "world/entities/player.hpp"
 
 namespace Gamestate
 {
@@ -21,6 +23,7 @@ namespace Gamestate
 
     extern State currentState;
     extern World::Map* loadedMap;
+    extern World::PlayerEntity* player;
 
     void update(int deltaTicks);
     void init();

@@ -1,254 +1,284 @@
 #include "core/graphics.hpp"
 #include "core/sdlmanager.hpp"
 
-Graphics::Rectangle::Rectangle(int cx, int cy, int cw, int ch)
+namespace Graphics
 {
-    x = cx;
-    y = cy;
-    w = cw;
-    h = ch;
-}
+    Rectangle::Rectangle(int cx, int cy, int cw, int ch)
+    {
+        x = cx;
+        y = cy;
+        w = cw;
+        h = ch;
+    }
 
-Graphics::Rectangle::Rectangle(int cw, int ch)
-{
-    x = 0;
-    y = 0;
-    w = cw;
-    h = ch;
-}
+    Rectangle::Rectangle(int cw, int ch)
+    {
+        x = 0;
+        y = 0;
+        w = cw;
+        h = ch;
+    }
 
-void Graphics::Rectangle::middle()
-{
-    x -= (int)((float)w * 0.5);
-    y -= (int)((float)h * 0.5);
-}
+    void Rectangle::middle()
+    {
+        x -= (int)((float)w * 0.5);
+        y -= (int)((float)h * 0.5);
+    }
 
-void Graphics::Rectangle::dock(float dx, float dy)
-{
-    x += (int)((float)SDLManager::screenWidth * dx);
-    y += (int)((float)SDLManager::screenHeight * dy);
-}
+    void Rectangle::dock(float dx, float dy)
+    {
+        x += (int)((float)SDLManager::screenWidth * dx);
+        y += (int)((float)SDLManager::screenHeight * dy);
+    }
 
-void Graphics::Rectangle::scale(float dw, float dh)
-{
-    w += (int)((float)SDLManager::screenWidth * dw);
-    h += (int)((float)SDLManager::screenHeight * dh);
-}
+    void Rectangle::scale(float dw, float dh)
+    {
+        w += (int)((float)SDLManager::screenWidth * dw);
+        h += (int)((float)SDLManager::screenHeight * dh);
+    }
 
-void Graphics::Rectangle::add(int px)
-{
-    x -= px;
-    y -= px;
-    w += px * 2;
-    h += px * 2;
-}
+    void Rectangle::add(int px)
+    {
+        x -= px;
+        y -= px;
+        w += px * 2;
+        h += px * 2;
+    }
 
-Graphics::Region::Region(SDL_Surface* surface)
-{
-    texture = SDL_CreateTextureFromSurface(SDLManager::renderer, surface);
-    width = surface->w;
-    height = surface->h;
-}
+    Rectanglef::Rectanglef(float cx, float cy, float cw, float ch)
+    {
+        x = cx;
+        y = cy;
+        w = cw;
+        h = ch;
+    }
 
-Graphics::Region::~Region()
-{
-    // std::cout << "region destroyed" << std::endl;
-    SDL_DestroyTexture(texture);
-}
+    Rectanglef::Rectanglef(float cw, float ch)
+    {
+        x = 0;
+        y = 0;
+        w = cw;
+        h = ch;
+    }
 
-void Graphics::Region::draw(int x, int y, int w, int h)
-{
-    SDL_Rect rect;
-    rect.x = x;
-    rect.y = y;
-    rect.w = w;
-    rect.h = h;
-    SDL_RenderCopy(SDLManager::renderer, texture, nullptr, &rect);
-}
+    Region::Region(SDL_Surface* surface)
+    {
+        texture = SDL_CreateTextureFromSurface(SDLManager::renderer, surface);
+        width = surface->w;
+        height = surface->h;
+    }
 
-void Graphics::Region::draw(int x, int y)
-{
-    draw(x, y, width, height);
-}
+    Region::~Region()
+    {
+        // std::cout << "region destroyed" << std::endl;
+        SDL_DestroyTexture(texture);
+    }
 
-void Graphics::Region::draw()
-{
-    draw(0, 0, width, height);
-}
+    void Region::draw(int x, int y, int w, int h)
+    {
+        SDL_Rect rect;
+        rect.x = x;
+        rect.y = y;
+        rect.w = w;
+        rect.h = h;
+        SDL_RenderCopy(SDLManager::renderer, texture, nullptr, &rect);
+    }
 
-void Graphics::Region::draw(Rectangle rect)
-{
-    draw(rect.x, rect.y, rect.w, rect.h);
-}
+    void Region::draw(int x, int y)
+    {
+        draw(x, y, width, height);
+    }
 
-Graphics::Slice9::Slice9(
-    int sz,
-    Region* s0,
-    Region* s1,
-    Region* s2,
-    Region* s3,
-    Region* s4,
-    Region* s5,
-    Region* s6,
-    Region* s7,
-    Region* s8
-)
-{
-    size = sz;
-    slice0 = s0;
-    slice1 = s1;
-    slice2 = s2;
-    slice3 = s3;
-    slice4 = s4;
-    slice5 = s5;
-    slice6 = s6;
-    slice7 = s7;
-    slice8 = s8;
-}
+    void Region::draw()
+    {
+        draw(0, 0, width, height);
+    }
 
-Graphics::Slice9::~Slice9()
-{
-    // std::cout << "slice9 destroyed" << std::endl;
-    delete slice0;
-    delete slice1;
-    delete slice2;
-    delete slice3;
-    delete slice4;
-    delete slice5;
-    delete slice6;
-    delete slice7;
-    delete slice8;
-}
+    void Region::draw(Rectangle rect)
+    {
+        draw(rect.x, rect.y, rect.w, rect.h);
+    }
 
-void Graphics::Slice9::draw(int x, int y, int w, int h)
-{
-    slice0->draw(x,            y           , size,            size);
-    slice1->draw(x + size,     y           , w - size - size, size);
-    slice2->draw(x + w - size, y           , size,            size);
-    slice3->draw(x,            y + size    , size,            h - size - size);
-    slice4->draw(x + size,     y + size    , w - size - size, h - size - size);
-    slice5->draw(x + w - size, y + size    , size,            h - size - size);
-    slice6->draw(x,            y + h - size, size,            size);
-    slice7->draw(x + size,     y + h - size, w - size - size, size);
-    slice8->draw(x + w - size, y + h - size, size,            size);
-}
+    Slice9::Slice9(
+        int sz,
+        Region* s0,
+        Region* s1,
+        Region* s2,
+        Region* s3,
+        Region* s4,
+        Region* s5,
+        Region* s6,
+        Region* s7,
+        Region* s8
+    )
+    {
+        size = sz;
+        slice0 = s0;
+        slice1 = s1;
+        slice2 = s2;
+        slice3 = s3;
+        slice4 = s4;
+        slice5 = s5;
+        slice6 = s6;
+        slice7 = s7;
+        slice8 = s8;
+    }
 
-void Graphics::Slice9::draw(Rectangle rect)
-{
-    draw(rect.x, rect.y, rect.w, rect.h);
-}
+    Slice9::~Slice9()
+    {
+        // std::cout << "slice9 destroyed" << std::endl;
+        delete slice0;
+        delete slice1;
+        delete slice2;
+        delete slice3;
+        delete slice4;
+        delete slice5;
+        delete slice6;
+        delete slice7;
+        delete slice8;
+    }
 
-Graphics::Sheet::Sheet(std::string path)
-{
-    // std::cout << "loading sprite at " << path << std::endl;
-    surface = IMG_Load(path.c_str());
-}
+    void Slice9::draw(int x, int y, int w, int h)
+    {
+        slice0->draw(x,            y           , size,            size);
+        slice1->draw(x + size,     y           , w - size - size, size);
+        slice2->draw(x + w - size, y           , size,            size);
+        slice3->draw(x,            y + size    , size,            h - size - size);
+        slice4->draw(x + size,     y + size    , w - size - size, h - size - size);
+        slice5->draw(x + w - size, y + size    , size,            h - size - size);
+        slice6->draw(x,            y + h - size, size,            size);
+        slice7->draw(x + size,     y + h - size, w - size - size, size);
+        slice8->draw(x + w - size, y + h - size, size,            size);
+    }
 
-Graphics::Sheet::~Sheet()
-{
-    // std::cout << "sheet destroyed" << std::endl;
-    SDL_FreeSurface(surface);
-}
+    void Slice9::draw(Rectangle rect)
+    {
+        draw(rect.x, rect.y, rect.w, rect.h);
+    }
 
-Graphics::Region Graphics::Sheet::getRegion(int x, int y, int w, int h)
-{
-    SDL_Rect rect;
-    rect.x = x;
-    rect.y = y;
-    rect.w = w;
-    rect.h = h;
-    #if SDL_BYTEORDER == SDL_BIG_ENDIAN
-    SDL_Surface* regionSurface = SDL_CreateRGBSurface(SDL_SWSURFACE, w, h, 32, 0xFF000000, 0x00FF0000, 0x0000FF00, 0x000000FF);
-    #else
-    SDL_Surface* regionSurface = SDL_CreateRGBSurface(SDL_SWSURFACE, w, h, 32, 0x000000FF, 0x0000FF00, 0x00FF0000, 0xFF000000);
-    #endif
-    SDL_BlitSurface(surface, &rect, regionSurface, nullptr);
-    Graphics::Region region = Graphics::Region(regionSurface);
-    SDL_FreeSurface(regionSurface);
-    return region;
-}
+    Sheet::Sheet(std::string path)
+    {
+        // std::cout << "loading sprite at " << path << std::endl;
+        surface = IMG_Load(path.c_str());
+    }
 
-Graphics::Region* Graphics::Sheet::getRegionPointer(int x, int y, int w, int h)
-{
-    SDL_Rect rect;
-    rect.x = x;
-    rect.y = y;
-    rect.w = w;
-    rect.h = h;
-    #if SDL_BYTEORDER == SDL_BIG_ENDIAN
-    SDL_Surface* regionSurface = SDL_CreateRGBSurface(SDL_SWSURFACE, w, h, 32, 0xFF000000, 0x00FF0000, 0x0000FF00, 0x000000FF);
-    #else
-    SDL_Surface* regionSurface = SDL_CreateRGBSurface(SDL_SWSURFACE, w, h, 32, 0x000000FF, 0x0000FF00, 0x00FF0000, 0xFF000000);
-    #endif
-    SDL_BlitSurface(surface, &rect, regionSurface, nullptr);
-    Graphics::Region* region = new Graphics::Region(regionSurface);
-    SDL_FreeSurface(regionSurface);
-    return region;
-}
+    Sheet::~Sheet()
+    {
+        // std::cout << "sheet destroyed" << std::endl;
+        SDL_FreeSurface(surface);
+    }
 
-Graphics::Slice9 Graphics::Sheet::getSlice9(int x, int y, int size)
-{
-    Graphics::Region* r0 = getRegionPointer(x,               y,               size, size);
-    Graphics::Region* r1 = getRegionPointer(x + size,        y,               size, size);
-    Graphics::Region* r2 = getRegionPointer(x + size + size, y,               size, size);
-    Graphics::Region* r3 = getRegionPointer(x,               y + size,        size, size);
-    Graphics::Region* r4 = getRegionPointer(x + size,        y + size,        size, size);
-    Graphics::Region* r5 = getRegionPointer(x + size + size, y + size,        size, size);
-    Graphics::Region* r6 = getRegionPointer(x,               y + size + size, size, size);
-    Graphics::Region* r7 = getRegionPointer(x + size,        y + size + size, size, size);
-    Graphics::Region* r8 = getRegionPointer(x + size + size, y + size + size, size, size);
-    return Graphics::Slice9(size, r0, r1, r2, r3, r4, r5, r6, r7, r8);
-}
+    Region Sheet::getRegion(int x, int y, int w, int h)
+    {
+        SDL_Rect rect;
+        rect.x = x;
+        rect.y = y;
+        rect.w = w;
+        rect.h = h;
+        #if SDL_BYTEORDER == SDL_BIG_ENDIAN
+        SDL_Surface* regionSurface = SDL_CreateRGBSurface(SDL_SWSURFACE, w, h, 32, 0xFF000000, 0x00FF0000, 0x0000FF00, 0x000000FF);
+        #else
+        SDL_Surface* regionSurface = SDL_CreateRGBSurface(SDL_SWSURFACE, w, h, 32, 0x000000FF, 0x0000FF00, 0x00FF0000, 0xFF000000);
+        #endif
+        SDL_BlitSurface(surface, &rect, regionSurface, nullptr);
+        Region region = Region(regionSurface);
+        SDL_FreeSurface(regionSurface);
+        return region;
+    }
 
-Graphics::Slice9* Graphics::Sheet::getSlice9Pointer(int x, int y, int size)
-{
-    Graphics::Region* r0 = getRegionPointer(x,               y,               size, size);
-    Graphics::Region* r1 = getRegionPointer(x + size,        y,               size, size);
-    Graphics::Region* r2 = getRegionPointer(x + size + size, y,               size, size);
-    Graphics::Region* r3 = getRegionPointer(x,               y + size,        size, size);
-    Graphics::Region* r4 = getRegionPointer(x + size,        y + size,        size, size);
-    Graphics::Region* r5 = getRegionPointer(x + size + size, y + size,        size, size);
-    Graphics::Region* r6 = getRegionPointer(x,               y + size + size, size, size);
-    Graphics::Region* r7 = getRegionPointer(x + size,        y + size + size, size, size);
-    Graphics::Region* r8 = getRegionPointer(x + size + size, y + size + size, size, size);
-    return new Graphics::Slice9(size, r0, r1, r2, r3, r4, r5, r6, r7, r8);
-}
+    Region* Sheet::getRegionPointer(int x, int y, int w, int h)
+    {
+        SDL_Rect rect;
+        rect.x = x;
+        rect.y = y;
+        rect.w = w;
+        rect.h = h;
+        #if SDL_BYTEORDER == SDL_BIG_ENDIAN
+        SDL_Surface* regionSurface = SDL_CreateRGBSurface(SDL_SWSURFACE, w, h, 32, 0xFF000000, 0x00FF0000, 0x0000FF00, 0x000000FF);
+        #else
+        SDL_Surface* regionSurface = SDL_CreateRGBSurface(SDL_SWSURFACE, w, h, 32, 0x000000FF, 0x0000FF00, 0x00FF0000, 0xFF000000);
+        #endif
+        SDL_BlitSurface(surface, &rect, regionSurface, nullptr);
+        Region* region = new Region(regionSurface);
+        SDL_FreeSurface(regionSurface);
+        return region;
+    }
 
-void Graphics::setDrawColor(int r, int g, int b, int a)
-{
-    SDL_SetRenderDrawColor(SDLManager::renderer, r, g, b, a);
-}
+    Slice9 Sheet::getSlice9(int x, int y, int size)
+    {
+        Region* r0 = getRegionPointer(x,               y,               size, size);
+        Region* r1 = getRegionPointer(x + size,        y,               size, size);
+        Region* r2 = getRegionPointer(x + size + size, y,               size, size);
+        Region* r3 = getRegionPointer(x,               y + size,        size, size);
+        Region* r4 = getRegionPointer(x + size,        y + size,        size, size);
+        Region* r5 = getRegionPointer(x + size + size, y + size,        size, size);
+        Region* r6 = getRegionPointer(x,               y + size + size, size, size);
+        Region* r7 = getRegionPointer(x + size,        y + size + size, size, size);
+        Region* r8 = getRegionPointer(x + size + size, y + size + size, size, size);
+        return Slice9(size, r0, r1, r2, r3, r4, r5, r6, r7, r8);
+    }
 
-void Graphics::setDrawColor(int r, int g, int b)
-{
-    setDrawColor(r, g, b, 0xFF);
-}
+    Slice9* Sheet::getSlice9Pointer(int x, int y, int size)
+    {
+        Region* r0 = getRegionPointer(x,               y,               size, size);
+        Region* r1 = getRegionPointer(x + size,        y,               size, size);
+        Region* r2 = getRegionPointer(x + size + size, y,               size, size);
+        Region* r3 = getRegionPointer(x,               y + size,        size, size);
+        Region* r4 = getRegionPointer(x + size,        y + size,        size, size);
+        Region* r5 = getRegionPointer(x + size + size, y + size,        size, size);
+        Region* r6 = getRegionPointer(x,               y + size + size, size, size);
+        Region* r7 = getRegionPointer(x + size,        y + size + size, size, size);
+        Region* r8 = getRegionPointer(x + size + size, y + size + size, size, size);
+        return new Slice9(size, r0, r1, r2, r3, r4, r5, r6, r7, r8);
+    }
 
-void Graphics::drawRectangle(int x, int y, int w, int h)
-{
-    SDL_Rect rect;
-    rect.x = x;
-    rect.y = y;
-    rect.w = w;
-    rect.h = h;
+    void setDrawColor(int r, int g, int b, int a)
+    {
+        SDL_SetRenderDrawColor(SDLManager::renderer, r, g, b, a);
+    }
 
-    SDL_RenderFillRect(SDLManager::renderer, &rect);
-}
+    void setDrawColor(int r, int g, int b)
+    {
+        setDrawColor(r, g, b, 0xFF);
+    }
 
-void Graphics::drawRectangle(Rectangle rect)
-{
-    drawRectangle(rect.x, rect.y, rect.w, rect.h);
-}
+    void drawRectangle(int x, int y, int w, int h)
+    {
+        SDL_Rect rect;
+        rect.x = x;
+        rect.y = y;
+        rect.w = w;
+        rect.h = h;
 
-float Graphics::cameraX = 0;
-float Graphics::cameraY = 0;
-float Graphics::cameraZoom = 32.0;
+        SDL_RenderFillRect(SDLManager::renderer, &rect);
+    }
 
-Graphics::Rectangle Graphics::project(Graphics::Rectangle rect)
-{
-    rect.w = rect.w * cameraZoom + 0.5;
-    rect.h = rect.h * cameraZoom + 0.5;
-    rect.x = (rect.x - cameraX - 0.5) * cameraZoom + SDLManager::screenWidth / 2.0 + 0.5;
-    rect.y = (rect.y - cameraY - 0.5) * cameraZoom + SDLManager::screenHeight / 2.0 + 0.5;
-    return rect;
+    void drawRectangle(Rectangle rect)
+    {
+        drawRectangle(rect.x, rect.y, rect.w, rect.h);
+    }
+
+    float cameraX = 0;
+    float cameraY = 0;
+    float cameraZoom = 32.0;
+
+    Rectangle project(Rectangle rect)
+    {
+        return Rectangle(
+            (rect.x - cameraX - 0.5) * cameraZoom + SDLManager::screenWidth / 2.0 + 0.5,
+            (rect.y - cameraY - 0.5) * cameraZoom + SDLManager::screenHeight / 2.0 + 0.5,
+            rect.w * cameraZoom + 0.5,
+            rect.w * cameraZoom + 0.5
+        );
+    }
+
+    Rectangle project(Rectanglef rect)
+    {
+        return Rectangle(
+            (rect.x - cameraX - 0.5) * cameraZoom + SDLManager::screenWidth / 2.0 + 0.5,
+            (rect.y - cameraY - 0.5) * cameraZoom + SDLManager::screenHeight / 2.0 + 0.5,
+            rect.w * cameraZoom + 0.5,
+            rect.w * cameraZoom + 0.5
+        );
+    }
 }

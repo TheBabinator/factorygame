@@ -30,7 +30,7 @@ namespace World
         Map();
         ~Map();
         void loadChunk(int cx, int cy);
-        void update();
+        void update(int deltaTicks);
         void draw();
     };
 }

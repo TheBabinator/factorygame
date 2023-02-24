@@ -20,5 +20,6 @@ namespace Tiles
     {
         delete dirt;
         delete grass;
+        delete squares;
     }
 };

@@ -6,7 +6,7 @@
 
 namespace Graphics
 {
-    class Rectangle {
+    struct Rectangle {
     public:
         Rectangle(int x, int y, int w, int h);
         Rectangle(int w, int h);
@@ -18,6 +18,15 @@ namespace Graphics
         void dock(float x, float y);
         void scale(float w, float h);
         void add(int px);
+    };
+
+    struct Rectanglef {
+        Rectanglef(float x, float y, float w, float h);
+        Rectanglef(float w, float h);
+        float x;
+        float y;
+        float w;
+        float h;
     };
 
     class Region
@@ -89,4 +98,5 @@ namespace Graphics
     extern float cameraZoom;
 
     Rectangle project(Rectangle rect);
+    Rectangle project(Rectanglef rect);
 };
