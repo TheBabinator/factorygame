@@ -19,23 +19,26 @@ namespace Gamestate
                 Menuscreen::run();
                 break;
             case GAMETEST:
+                player->vx = 0;
+                player->vy = 0;
                 if (Input::getKeyState("up"))
-                    Graphics::cameraY -= deltaTicks * 0.01;
+                    player->vy -= 4;
                 if (Input::getKeyState("down"))
-                    Graphics::cameraY += deltaTicks * 0.01;
+                    player->vy += 4;
                 if (Input::getKeyState("left"))
-                    Graphics::cameraX -= deltaTicks * 0.01;
+                    player->vx -= 4;
                 if (Input::getKeyState("right"))
-                    Graphics::cameraX += deltaTicks * 0.01;
-                Graphics::cameraZoom += Input::scrollY * 4.0;
+                    player->vx += 4;
+                player->rotation += deltaTicks * 0.001;
 
                 loadedMap->update(deltaTicks);
                 player->update(deltaTicks);
-                player->rotation += deltaTicks * 0.001;
-                player->vx = 3.0 * std::cos(player->rotation);
-                player->vy = 3.0 * std::sin(player->rotation);
                 loadedMap->draw();
                 player->draw();
+
+                Graphics::cameraX = player->x;
+                Graphics::cameraY = player->y;
+                Graphics::cameraZoom += Input::scrollY * 4.0;
 
                 break;
         }
