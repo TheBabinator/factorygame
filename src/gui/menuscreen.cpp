@@ -120,7 +120,7 @@ namespace Menuscreen
         Graphics::Rectangle innerRect = Graphics::Rectangle(0, -250, 600, 350);
         innerRect.dock(0.5, 1);
         innerRect.middle();
-        GUI::drawTextWhite("blah blah", Graphics::Rectangle(innerRect.x + 380, innerRect.y, 220, 350));
+        GUI::drawTextWhite("extra info", Graphics::Rectangle(innerRect.x + 380, innerRect.y, 220, 350));
         // save name field
         GUI::drawTextWhite("Name:", Graphics::Rectangle(innerRect.x, innerRect.y, 80, 40));
         if (GUI::buttonWhite(innerRect.x + 80, innerRect.y, 300, 40))
@@ -146,11 +146,18 @@ namespace Menuscreen
             editing = RANDOM_SEED;
         }
         GUI::drawTextBlack(randomSeed, Graphics::Rectangle(innerRect.x + 80, innerRect.y + 40, 260, 40));
+        // cancel button
+        if (GUI::buttonRed(innerRect.x, innerRect.y + 100, 100, 40))
+        {
+            currentDialog = MAIN;
+        }
+        GUI::drawTextBlack("Cancel", Graphics::Rectangle(innerRect.x, innerRect.y + 100, 100, 40));
         // start button
-        if (GUI::buttonGreen(innerRect.x, innerRect.y + 100, 100, 40))
+        if (GUI::buttonGreen(innerRect.x + 110, innerRect.y + 100, 100, 40))
         {
             Gamestate::prepareGametest();
         }
+        GUI::drawTextBlack("Play", Graphics::Rectangle(innerRect.x + 110, innerRect.y + 100, 100, 40));
     }
 
     void newGameAdvancedDialog()

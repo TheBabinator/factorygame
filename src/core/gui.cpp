@@ -8,6 +8,9 @@ Graphics::Slice9* buttonSlice2;
 Graphics::Slice9* buttonSliceGreen0;
 Graphics::Slice9* buttonSliceGreen1;
 Graphics::Slice9* buttonSliceGreen2;
+Graphics::Slice9* buttonSliceRed0;
+Graphics::Slice9* buttonSliceRed1;
+Graphics::Slice9* buttonSliceRed2;
 
 Graphics::Sheet* fontSheet;
 
@@ -50,6 +53,9 @@ void GUI::loadAssets()
     buttonSliceGreen0 = uiSheet->getSlice9Pointer(0, 192, 32);
     buttonSliceGreen1 = uiSheet->getSlice9Pointer(96, 192, 32);
     buttonSliceGreen2 = uiSheet->getSlice9Pointer(192, 192, 32);
+    buttonSliceRed0 = uiSheet->getSlice9Pointer(0, 288, 32);
+    buttonSliceRed1 = uiSheet->getSlice9Pointer(96, 288, 32);
+    buttonSliceRed2 = uiSheet->getSlice9Pointer(192, 288, 32);
     fontSheet = new Graphics::Sheet("assets/sprites/ui/font.png");
     int x = 0;
     int y = 0;
@@ -233,4 +239,29 @@ bool GUI::buttonGreen(int x, int y, int w, int h)
 bool GUI::buttonGreen(Graphics::Rectangle rect)
 {
     return buttonGreen(rect.x, rect.y, rect.w, rect.h);
+}
+
+bool GUI::buttonRed(int x, int y, int w, int h)
+{
+    if (Input::mouseX >= x && Input::mouseX < x + w && Input::mouseY >= y && Input::mouseY < y + h) {
+        switch (Input::leftMouse)
+        {
+            case 0:
+                buttonSliceRed1->draw(x, y, w, h);
+                return false;
+            case 1:
+                buttonSliceRed2->draw(x, y, w, h);
+                return true;
+            default:
+                buttonSliceRed2->draw(x, y, w, h);
+                return false;
+        }
+    }
+    buttonSliceRed0->draw(x, y, w, h);
+    return false;
+}
+
+bool GUI::buttonRed(Graphics::Rectangle rect)
+{
+    return buttonRed(rect.x, rect.y, rect.w, rect.h);
 }
